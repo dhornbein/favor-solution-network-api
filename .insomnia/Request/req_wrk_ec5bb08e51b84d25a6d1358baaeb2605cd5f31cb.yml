@@ -1,0 +1,51 @@
+_id: req_wrk_ec5bb08e51b84d25a6d1358baaeb2605cd5f31cb
+type: Request
+parentId: fld_wrk_ec5bb08e51b84d25a6d1358baaeb2605f13eb585
+modified: 1640414665493
+created: 1640414462817
+url: "{{ base_url }}/transactions"
+name: searches transactions
+description: ""
+method: GET
+body: {}
+parameters:
+  - name: searchString
+    disabled: true
+    value: string
+    id: pair_b804f3d5424242e882c104d3b6eb7362
+  - name: payeeId
+    disabled: true
+    value: "42"
+    id: pair_d429b2a7def3436fa875b9dc18921acb
+  - name: searchPayee
+    disabled: true
+    value: xXxC4TL0verxXx
+    id: pair_31b57ea000974e518bc9295b132f8a94
+  - name: recipientId
+    disabled: true
+    value: "42"
+    id: pair_fe728921f5f841e7bd1cf3356feee02d
+  - name: searchRecipient
+    disabled: true
+    value: xXxC4TL0verxXx
+    id: pair_19f5252fd6404b699ea51b287a4ca2ec
+  - name: skip
+    disabled: true
+    value: "0"
+    id: pair_853e74ff3e3b42c7913c9f96cbb6c234
+  - name: limit
+    disabled: true
+    value: "0"
+    id: pair_4896dae0a2c44d688f4e3c2953d652e7
+headers: []
+authentication:
+  type: bearer
+  token: "{{ _.member_token }}"
+metaSortKey: -1640414462817
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

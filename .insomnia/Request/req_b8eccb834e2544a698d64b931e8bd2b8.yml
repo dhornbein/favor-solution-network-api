@@ -1,0 +1,30 @@
+_id: req_b8eccb834e2544a698d64b931e8bd2b8
+type: Request
+parentId: fld_wrk_ec5bb08e51b84d25a6d1358baaeb26056beea31d
+modified: 1640500605452
+created: 1640497659370
+url: "{{ base_url }}/auth"
+name: Broker Login
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "username": "DrewH",
+      "password": "time2GO@"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_ad4018f87a4b4d96956acdd29a0cbb0c
+authentication: {}
+metaSortKey: -1640414462757
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

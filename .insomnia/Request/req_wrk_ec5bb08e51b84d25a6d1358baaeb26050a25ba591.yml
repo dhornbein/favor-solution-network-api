@@ -1,0 +1,32 @@
+_id: req_wrk_ec5bb08e51b84d25a6d1358baaeb26050a25ba591
+type: Request
+parentId: fld_wrk_ec5bb08e51b84d25a6d1358baaeb26056beea31d
+modified: 1640559296223
+created: 1640494414055
+url: "{{ base_url }}/members/update/{{ uuid }}"
+name: update member data
+description: ""
+method: PATCH
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "creditLimit": "3444",
+      "balance": "140000"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_243840af371345568ee2812a6e74ab4c
+authentication:
+  type: bearer
+  token: "{{ _.res.broker_token }}"
+metaSortKey: -1640494414055
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

@@ -1,0 +1,28 @@
+_id: req_wrk_ec5bb08e51b84d25a6d1358baaeb2605ed4b94f2
+type: Request
+parentId: fld_wrk_ec5bb08e51b84d25a6d1358baaeb26056beea31d
+modified: 1640498059911
+created: 1640414462823
+url: "{{ base_url }}/auth"
+name: Test authentication
+description: ""
+method: GET
+body: {}
+parameters: []
+headers:
+  - name: access_token
+    disabled: false
+    value: string
+    id: pair_2856d46457684bb8a93c263282b89871
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_wrk_ec5bb08e51b84d25a6d1358baaeb2605e049a201',
+    'b64::JC5kYXRhLmFjY2Vzc190b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1640414462782
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

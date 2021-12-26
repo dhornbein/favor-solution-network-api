@@ -1,0 +1,781 @@
+_id: spc_4f4c9b71b39f495c8d5d6157e8673e88
+type: ApiSpec
+parentId: wrk_ec5bb08e51b84d25a6d1358baaeb2605
+modified: 1640504757400
+created: 1640414470848
+fileName: Favor Solutions Network API 1.0.0
+contents: >-
+  openapi: 3.0.0
+
+  info:
+    description: An interface into Favor transaction and member data
+    version: "1.0.0"
+    title: Favor Solutions Network API
+    contact:
+      email: favor@dhornbein.com
+    license:
+      name: Apache 2.0
+      url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  tags:
+    - name: brokers
+      description: Secured broker-only calls
+    - name: members
+      description: Operations available to regular members
+    - name: public
+      description: Operations available to anyone
+  paths:
+    /auth:
+      get:
+        tags:
+          - members
+        summary: Test authentication
+        operationId: authCheck
+        description: |
+          By passing login credentials
+        parameters:
+          - in: header
+            name: access_token
+            description: pass an access token to check if it is valid
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':
+            description: You are authenticated!
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    user:
+                      $ref: '#/components/schemas/AccessToken'
+          '401':
+            description: You are not authenticated
+      post:
+        tags:
+          - public
+        summary: request auth token
+        operationId: authToken
+        description: Authenticate and get a shiny access token
+        requestBody:
+          description: that sweet username and password combo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthRequest'
+        responses:
+          '201':
+            description: Token created successfully
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                    data:
+                      $ref: '#/components/schemas/AccessTokenReturn'
+          '422':
+            description: 'invalid input, object invalid'
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    errors:
+                      $ref: '#/components/schemas/ProcessError'
+          '401':
+            description: token authentication error
+          '403':
+            description: token invalid
+    /auth/me:
+      get:
+        tags:
+          - members
+        summary: Get the current authenticated user's member object
+        operationId: authMe
+        description: |
+          Get the member object of the current authenticated member
+        parameters:
+          - in: header
+            name: access_token
+            description: pass an access token to check if it is valid
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':
+            description: Member found
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: string
+                      example: 'Member info found'
+                    data:
+                      $ref: '#/components/schemas/MemberItem'
+          '401':
+            description: token authentication error
+          '403':
+            description: token invalid
+    /auth/invite:
+      post:
+        tags:
+          - members
+        summary: Invites a person to become a member
+        operationId: authInvite
+        description: |
+          By passing user information one can invite a person to join the network
+        parameters:
+          - in: header
+            name: access_token
+            description: pass an access token to check if it is valid
+            required: true
+            schema:
+              type: string
+        requestBody:
+          description: that sweet username and password combo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvitationRequest'
+        responses:
+          '201':
+            description: Invite token created successfully
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                    data:
+                      $ref: '#/components/schemas/InviteTokenReturn'
+          '401':
+            description: token authentication error
+          '403':
+            description: token invalid
+          '422':
+            description: 'invalid input, object invalid'
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    errors:
+                      $ref: '#/components/schemas/ProcessError'
+    /transactions:
+      get:
+        tags:
+          - members
+          - public
+        summary: searches transactions
+        operationId: searchTransactions
+        description: |
+          By passing in the appropriate options, you can look up Favor transactions
+        parameters:
+          - in: query
+            name: searchString
+            description: pass an optional search string for looking up transactions
+            required: false
+            schema:
+              type: string
+          - in: query
+            name: payeeId
+            description: pass a userId to see all payments made by that user
+            required: false
+            schema:
+              $ref: '#/components/schemas/MemberItem/properties/id'
+          - in: query
+            name: searchPayee
+            description: pass an optional username string for looking up all payments made by that user
+            required: false
+            schema:
+              $ref: '#/components/schemas/MemberItem/properties/username'
+          - in: query
+            name: recipientId
+            description: pass a userId to see all payments recevied by that user
+            required: false
+            schema:
+              $ref: '#/components/schemas/MemberItem/properties/id'
+          - in: query
+            name: searchRecipient
+            description: pass an optional username string for looking up all payments recevied by that user
+            required: false
+            schema:
+              $ref: '#/components/schemas/MemberItem/properties/username'
+          - in: query
+            name: skip
+            description: number of records to skip for pagination
+            schema:
+              type: integer
+              format: int32
+              minimum: 0
+          - in: query
+            name: limit
+            description: maximum number of records to return
+            schema:
+              type: integer
+              format: int32
+              minimum: 0
+              maximum: 50
+        responses:
+          '200':
+            description: Transactions found
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                    query:
+                      type: object
+                      description: the queries from the request
+                    data:
+                      $ref: '#/components/schemas/TransactionItem'
+          '404':
+            description: no transactions found
+          '422':
+            description: 'invalid input, object invalid'
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    errors:
+                      $ref: '#/components/schemas/ProcessError'
+      post:
+        tags:
+          - brokers
+          - members
+        summary: adds an transaction
+        operationId: addTransaction
+        description: Adds a transaction
+        requestBody:
+          description: The transaction you'd like to add
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionItem'
+        responses:
+          '201':
+            description: Transaction created successfully
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                    data:
+                      $ref: '#/components/schemas/TransactionItem'
+          '401':
+            description: token authentication error
+          '403':
+            description: |
+              ## Not Authorized
+              - If your authentication token is invalid
+              - If a non-broker attempts to submit a transaction on behalf of someone else
+          '422':
+            description: 'invalid input, object invalid'
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    errors:
+                      $ref: '#/components/schemas/ProcessError'
+    /members:
+      get:
+        tags:
+          - members
+        summary: searches members
+        operationId: searchMembers
+        description: |
+          By passing in the appropriate options, you can look up members of the Favor Solutions Network
+        parameters:
+          - in: query
+            name: searchString
+            description: pass an optional search string for members
+            required: false
+            schema:
+              type: string
+          - in: query
+            name: searchId
+            description: pass an id to recieve a specific member
+            required: false
+            schema:
+              $ref: '#/components/schemas/MemberItem/properties/id'
+          - in: query
+            name: skip
+            description: number of records to skip for pagination
+            schema:
+              type: integer
+              format: int32
+              minimum: 0
+          - in: query
+            name: limit
+            description: maximum number of records to return
+            schema:
+              type: integer
+              format: int32
+              minimum: 0
+              maximum: 50
+        responses:
+          '200':
+            description: Members found
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                    query:
+                      type: object
+                      description: the queries from the request
+                    data:
+                      $ref: '#/components/schemas/MemberItem'
+          '404':
+            description: no members found
+          '422':
+            description: 'invalid input, object invalid'
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    errors:
+                      $ref: '#/components/schemas/ProcessError'
+      post:
+        tags:
+          - brokers
+        summary: adds a member
+        operationId: addMember
+        description: Adds a member
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberItem'
+          description: Transaction
+        responses:
+          '201':
+            description: Member created successfully
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                    data:
+                      $ref: '#/components/schemas/MemberItem'
+          '401':
+            description: token authentication error
+          '403':
+            description: Not Authorized - only Brokers can create new members
+          '422':
+            description: 'invalid input, object invalid'
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    errors:
+                      $ref: '#/components/schemas/ProcessError'
+    /members/join/{token}:
+      post:
+        tags:
+          - public
+        summary: Join favor via invite
+        operationId: join
+        description: Join with invite token
+        parameters:
+          - in: path
+            name: token
+            required: true
+            schema:
+              $ref: '#/components/schemas/InviteTokenReturn/properties/invitation_token'
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewMemberRequest'
+          description: Data about the new member
+        responses:
+          '201':
+            description: Member created successfully
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                    data:
+                      $ref: '#/components/schemas/MemberItem'
+          '401':
+            description: token authentication error
+          '403':
+            description: Not Authorized - missing invite token
+          '422':
+            description: 'invalid input, object invalid, token invalid or claimed'
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    errors:
+                      $ref: '#/components/schemas/ProcessError'
+    /members/update/{uuid}:
+      patch:
+        tags:
+          - members
+          - brokers
+        summary: update member data
+        operationId: update
+        description: Updates a single member's data
+        parameters:
+          - in: path
+            name: uuid
+            required: true
+            schema:
+              $ref: '#/components/schemas/MemberItem/properties/uuid'
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberPatchRequest'
+          description: All fields that are meant to be updated
+        responses:
+          '204':
+            description: Member updated successfully
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                    data:
+                      $ref: '#/components/schemas/MemberItem'
+          '401':
+            description: token authentication error
+          '403':
+            description: Not Authorized
+          '422':
+            description: invalid input, object invalid
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    errors:
+                      $ref: '#/components/schemas/ProcessError'
+  components:
+    schemas:
+      ProcessError:
+        type: array
+        items:
+          type: object
+          properties:
+            msg:
+              type: string
+              description: error message
+            param:
+              type: string
+              description: parameter where error occured
+            value:
+              type: string
+              description: rejected value
+            location:
+              type: string
+              example: body
+              description: where in the request the rejected value came from
+      AccessToken:
+        type: object
+        properties:
+          uuid:
+            $ref: '#/components/schemas/MemberItem/properties/uuid'
+          username:
+            $ref: '#/components/schemas/MemberItem/properties/username'
+          id:
+            $ref: '#/components/schemas/MemberItem/properties/id'
+          roles:
+            $ref: '#/components/schemas/MemberItem/properties/roles'
+      AuthRequest:
+        type: object
+        required:
+          - username
+          - password
+        properties:
+          username:
+            $ref: '#/components/schemas/MemberItem/properties/username'
+          password:
+            $ref: '#/components/schemas/MemberPrivate/properties/password'
+      AccessTokenReturn:
+        type: object
+        properties:
+          access_token:
+            type: string
+            format: jwt
+            example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+          token_type:
+            type: string
+            example: Bearer
+          expires_in:
+            type: string
+            example: 1h
+      InvitationToken:
+        type: object
+        properties:
+          invitation:
+            type: object
+            properties:
+              firstName:
+                $ref: '#/components/schemas/MemberItem/properties/firstName'
+              lastName:
+                $ref: '#/components/schemas/MemberItem/properties/lastName'
+              email:
+                $ref: '#/components/schemas/MemberItem/properties/email'
+              phone:
+                $ref: '#/components/schemas/MemberItem/properties/phone'
+          invitedById:
+            $ref: '#/components/schemas/MemberItem/properties/uuid'
+          transaction:
+            type: object
+            properties:
+              payeeId:
+                $ref: '#/components/schemas/MemberItem/properties/uuid'
+              amount:
+                $ref: '#/components/schemas/TransactionItem/properties/amount'
+      InvitationRequest:
+        type: object
+        required:
+          - firstName
+          - invitedById
+        properties:
+          firstName:
+            $ref: '#/components/schemas/MemberItem/properties/firstName'
+          lastName:
+            $ref: '#/components/schemas/MemberItem/properties/lastName'
+          email:
+            $ref: '#/components/schemas/MemberItem/properties/email'
+          phone:
+            $ref: '#/components/schemas/MemberItem/properties/phone'
+          amount:
+            $ref: '#/components/schemas/TransactionItem/properties/amount'
+          invitedById:
+            $ref: '#/components/schemas/MemberItem/properties/uuid'
+      InviteTokenReturn:
+        type: object
+        properties:
+          invitation_token:
+            type: string
+            format: jwt
+            example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+          token_type:
+            type: string
+            example: Bearer
+          expires_in:
+            type: string
+            example: 14d
+      TransactionItem:
+        type: object
+        required:
+          - uuid
+          - id
+          - payeeId
+          - recipientId
+          - amount
+          - title
+          - effectiveDatetime
+        properties:
+          uuid:
+            type: string
+            format: uuid
+            example: d290f1ee-6c54-4b01-90e6-d701748f0851
+            readOnly: true
+          id:
+            type: integer
+            example: 42
+            minimum: 0
+            readOnly: true
+          created:
+            type: string
+            format: date-time
+            example: '2016-08-29T09:12:33.001Z'
+            readOnly: true
+          updated:
+            type: string
+            format: date-time
+            example: '2016-08-29T09:12:33.001Z'
+            readOnly: true
+          payeeId:
+            type: string
+            format: uuid
+            example: d290f1ee-6c54-4b01-90e6-d701748f0851
+          recipientId:
+            type: string
+            format: uuid
+            example: d290f1ee-6c54-4b01-90e6-d701748f0851
+          amount:
+            type: number
+            multipleOf: 0.001
+            example: 420.069
+          title:
+            type: string
+            maxLength: 140
+            example: 'a short descriptive title'
+          description:
+            type: string
+            example: 'a long form descriptive story'
+          effectiveDatetime:
+            type: string
+            format: date-time
+            example: '2016-08-29T09:12:33.001Z'
+          brokerId:
+            type: string
+            format: uuid
+            example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      MemberPatchRequest:
+        type: object
+        properties:
+          username:
+            $ref: '#/components/schemas/MemberItem/properties/username'
+          firstName:
+            $ref: '#/components/schemas/MemberItem/properties/firstName'
+          lastName:
+            $ref: '#/components/schemas/MemberItem/properties/lastName'
+          BrokerId:
+            $ref: '#/components/schemas/MemberItem/properties/BrokerId'
+          phone:
+            $ref: '#/components/schemas/MemberItem/properties/phone'
+          email:
+            $ref: '#/components/schemas/MemberItem/properties/email'
+          password:
+            $ref: '#/components/schemas/MemberPrivate/properties/password'
+          creditLimit:
+            $ref: '#/components/schemas/MemberItem/properties/creditLimit'
+          updated:
+            $ref: '#/components/schemas/MemberItem/properties/updated'
+      NewMemberRequest:
+        type: object
+        required:
+          - username
+          - email
+          - firstName
+        properties:
+          username:
+            $ref: '#/components/schemas/MemberItem/properties/username'
+          firstName:
+            $ref: '#/components/schemas/MemberItem/properties/firstName'
+          lastName:
+            $ref: '#/components/schemas/MemberItem/properties/lastName'
+          BrokerId:
+            $ref: '#/components/schemas/MemberItem/properties/BrokerId'
+          InvitedById:
+            $ref: '#/components/schemas/MemberItem/properties/InvitedById'
+          phone:
+            $ref: '#/components/schemas/MemberItem/properties/phone'
+          email:
+            $ref: '#/components/schemas/MemberItem/properties/email'
+          password:
+            $ref: '#/components/schemas/MemberPrivate/properties/password'
+      MemberPrivate:
+        type: object
+        properties:
+          password:
+            type: string
+            format: bcrypt
+      MemberItem:
+        type: object
+        required:
+          - username
+          - uuid
+          - id
+        properties:
+          uuid:
+            type: string
+            format: uuid
+            example: d290f1ee-6c54-4b01-90e6-d701748f0851
+          id:
+            type: integer
+            example: 42
+            minimum: 1
+          created:
+            type: string
+            format: date-time
+            example: '2016-08-29T09:12:33.001Z'
+          updated:
+            type: string
+            format: date-time
+            example: '2016-08-29T09:12:33.001Z'
+            readOnly: true
+          username:
+            type: string
+            example: xXxC4TL0verxXx
+          firstName:
+            type: string
+          lastName:
+            type: string
+          creditLimit:
+            type: number
+            minimum: 0.000
+            multipleOf: 0.001
+            example: 420.069
+          balance:
+            type: number
+            multipleOf: 0.001
+            example: 420.069
+            description: the sum of member's credits and debits
+            readOnly: true
+          credit:
+            type: number
+            multipleOf: 0.001
+            example: 420.069
+            description: the sum of member's credits
+            readOnly: true
+          debit:
+            type: number
+            multipleOf: 0.001
+            example: 420.069
+            description: the sum of member's debits
+            readOnly: true
+          transactionTotal:
+            type: number
+            multipleOf: 0.001
+            example: 420.069
+            description: the sum of all money moved by the member
+            readOnly: true
+          brokerName:
+            type: string
+            example: 'username of broker'
+          BrokerId:
+            type: string
+            format: uuid
+            example: d290f1ee-6c54-4b01-90e6-d701748f0851
+          InvitedById:
+            type: string
+            format: uuid
+            example: d290f1ee-6c54-4b01-90e6-d701748f0851
+            description: the member id who invited this member
+          phone:
+            type: string
+            format: string
+            example: '(123) 555-5555'
+          email:
+            type: string
+            format: email
+            example: 'name@example.com'
+          roles:
+            type: array
+            items:
+              type: string
+          invites:
+            type: integer
+contentType: yaml

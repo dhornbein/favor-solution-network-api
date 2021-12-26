@@ -1,0 +1,8 @@
+_id: wrk_ec5bb08e51b84d25a6d1358baaeb2605
+type: Workspace
+parentId: null
+modified: 1640414528324
+created: 1640414470845
+name: Favor Solutions Network API 1.0.0
+description: An interface into Favor transaction and member data
+scope: design

@@ -1,0 +1,32 @@
+_id: req_wrk_ec5bb08e51b84d25a6d1358baaeb26050a25ba59
+type: Request
+parentId: fld_wrk_ec5bb08e51b84d25a6d1358baaeb2605f13eb585
+modified: 1640504756364
+created: 1640494414056
+url: "{{ base_url }}/members/update/{{ uuid }}"
+name: update member data
+description: ""
+method: PATCH
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "firstName": "Cattalain",
+      "lastName": "Catterson"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_2a90de7d79c641e2971cb65c72aeacbe
+authentication:
+  type: bearer
+  token: "{{ _.res.member_token }}"
+metaSortKey: -1640494414056
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

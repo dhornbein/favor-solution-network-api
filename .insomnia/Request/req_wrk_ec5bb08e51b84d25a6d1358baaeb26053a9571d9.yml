@@ -1,0 +1,37 @@
+_id: req_wrk_ec5bb08e51b84d25a6d1358baaeb26053a9571d9
+type: Request
+parentId: fld_wrk_ec5bb08e51b84d25a6d1358baaeb26056beea31d
+modified: 1640500823148
+created: 1640414462807
+url: "{{ base_url }}/members"
+name: adds a member
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "username": "xXxC4TL0verxXx",
+      "firstName": "string",
+      "lastName": "string",
+      "creditLimit": 420.069,
+      "phone": "(123) 555-5555",
+      "email": "name@example.com",
+      "password": "string"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_632e40814c93419daabdadc4c274c6d9
+authentication:
+  type: bearer
+  token: "{{ _.res.broker_token }}"
+metaSortKey: -1640414462807
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

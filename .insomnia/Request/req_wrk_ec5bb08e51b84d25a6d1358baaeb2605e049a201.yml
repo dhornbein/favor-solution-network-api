@@ -1,0 +1,30 @@
+_id: req_wrk_ec5bb08e51b84d25a6d1358baaeb2605e049a201
+type: Request
+parentId: fld_wrk_ec5bb08e51b84d25a6d1358baaeb260561c9b2b1
+modified: 1640503526462
+created: 1640414462822
+url: "{{ base_url }}/auth"
+name: request auth token
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "username": "cat",
+      "password": "qazWSX123!@#"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_436181f7ad8849709f5bba26c70a0785
+authentication: {}
+metaSortKey: -1640414462870
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

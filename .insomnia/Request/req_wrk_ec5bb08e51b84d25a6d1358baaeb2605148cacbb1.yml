@@ -1,0 +1,37 @@
+_id: req_wrk_ec5bb08e51b84d25a6d1358baaeb2605148cacbb1
+type: Request
+parentId: fld_wrk_ec5bb08e51b84d25a6d1358baaeb2605f13eb585
+modified: 1640494722808
+created: 1640414462810
+url: "{{ base_url }}/transactions"
+name: adds an transaction
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "payeeId": "{{ _.member_id }}",
+      "recipientId": "{{ _.member_id_two }}",
+      "amount": 420.069,
+      "title": "a short descriptive title",
+      "description": "a long form descriptive story",
+      "effectiveDatetime": "2016-08-29T09:12:33.001Z",
+      "brokerId": "{{ _.broker_id }}"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_114c24113a7740c0b2297ae12ea0d04f
+authentication:
+  type: bearer
+  token: "{{ _.member_token }}"
+metaSortKey: -1640414462810
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

@@ -1,0 +1,26 @@
+_id: req_b60a63465e1945d7bf159d260f6f93cf
+type: Request
+parentId: wrk_ec5bb08e51b84d25a6d1358baaeb2605
+modified: 1640487396932
+created: 1640486114314
+url: "{{ _.base_url }}/auth/service/google"
+name: Google Auth
+description: ""
+method: GET
+body:
+  mimeType: application/json
+  text: ""
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_80fc5fbbd30e4425a45b60d1c35e63e2
+authentication: {}
+metaSortKey: -1640486114315
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

@@ -1,0 +1,40 @@
+_id: env_env_f7c6fde859d326c51a0d66d33f4a55fd636783e5_sub
+type: Environment
+parentId: env_f7c6fde859d326c51a0d66d33f4a55fd636783e5
+modified: 1640504819081
+created: 1640414462830
+name: Localhost
+data:
+  scheme: http
+  base_path: /api
+  host: localhost:3000
+  res:
+    member_token: "{% response 'body',
+      'req_wrk_ec5bb08e51b84d25a6d1358baaeb2605e049a201',
+      'b64::JC5kYXRhLmFjY2Vzc190b2tlbg==::46b', 'no-history', 60 %}"
+    invite_token: "{% response 'body',
+      'req_wrk_ec5bb08e51b84d25a6d1358baaeb260583843dc3',
+      'b64::JC5kYXRhLmludml0YXRpb25fdG9rZW4=::46b', 'no-history', 60 %}"
+    member_uuid: "{% response 'body',
+      'req_wrk_ec5bb08e51b84d25a6d1358baaeb2605f0eed562',
+      'b64::JC5kYXRhLnV1aWQ=::46b', 'no-history', 60 %}"
+    broker_token: "{% response 'body', 'req_b8eccb834e2544a698d64b931e8bd2b8',
+      'b64::JC5kYXRhLmFjY2Vzc190b2tlbg==::46b', 'no-history', 60 %}"
+  token: "{{ _.res.invite_token }}"
+  uuid: "{{ _.res.member_uuid }}"
+dataPropertyOrder:
+  "&":
+    - scheme
+    - base_path
+    - host
+    - res
+    - token
+    - uuid
+  "&~|res":
+    - member_token
+    - invite_token
+    - member_uuid
+    - broker_token
+color: null
+isPrivate: false
+metaSortKey: 1640414462830

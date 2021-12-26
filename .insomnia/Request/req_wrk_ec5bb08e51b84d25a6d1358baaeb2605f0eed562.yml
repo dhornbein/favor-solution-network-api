@@ -1,0 +1,28 @@
+_id: req_wrk_ec5bb08e51b84d25a6d1358baaeb2605f0eed562
+type: Request
+parentId: fld_wrk_ec5bb08e51b84d25a6d1358baaeb2605f13eb585
+modified: 1640503581801
+created: 1640414462819
+url: "{{ base_url }}/auth/me"
+name: Get the current authenticated user's member object
+description: ""
+method: GET
+body: {}
+parameters: []
+headers:
+  - name: access_token
+    disabled: false
+    value: string
+    id: pair_aba35aa003a9485cada1f8b3807727fd
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_wrk_ec5bb08e51b84d25a6d1358baaeb2605e049a201',
+    'b64::JC5kYXRhLmFjY2Vzc190b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1640414462819
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

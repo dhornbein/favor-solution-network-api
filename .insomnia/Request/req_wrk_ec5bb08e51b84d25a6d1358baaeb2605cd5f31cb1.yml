@@ -1,0 +1,49 @@
+_id: req_wrk_ec5bb08e51b84d25a6d1358baaeb2605cd5f31cb1
+type: Request
+parentId: fld_wrk_ec5bb08e51b84d25a6d1358baaeb260561c9b2b1
+modified: 1640479533920
+created: 1640414462815
+url: "{{ base_url }}/transactions"
+name: searches transactions
+description: ""
+method: GET
+body: {}
+parameters:
+  - name: searchString
+    disabled: true
+    value: christ
+    id: pair_5506f282298d4f46a9028d6140212ac9
+  - name: payeeId
+    disabled: false
+    value: bcb9dcfc-b9bb-4fe9-a1ee-2e4ecc42911b
+    id: pair_9e9d2577bb5147cdbcad0eac6903e4b2
+  - name: searchPayee
+    disabled: true
+    value: xXxC4TL0verxXx
+    id: pair_3e469e9ce49b4c3d83f6cf3ae83b2d8d
+  - name: recipientId
+    disabled: true
+    value: "3"
+    id: pair_28613c0a54c840acac744430f78630cb
+  - name: searchRecipient
+    disabled: true
+    value: xXxC4TL0verxXx
+    id: pair_8e079f44a89e4896bbe1020a8c74a7c9
+  - name: skip
+    disabled: true
+    value: "0"
+    id: pair_a7a142c2511040409d7da00d86c53908
+  - name: limit
+    disabled: true
+    value: "0"
+    id: pair_92fd292532fc4aefa229b4962604b6c7
+headers: []
+authentication: {}
+metaSortKey: -1640414462815
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

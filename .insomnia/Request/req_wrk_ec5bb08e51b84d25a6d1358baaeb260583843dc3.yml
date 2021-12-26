@@ -1,0 +1,41 @@
+_id: req_wrk_ec5bb08e51b84d25a6d1358baaeb260583843dc3
+type: Request
+parentId: fld_wrk_ec5bb08e51b84d25a6d1358baaeb2605f13eb585
+modified: 1640503625615
+created: 1640414462818
+url: "{{ base_url }}/auth/invite"
+name: Invites a person to become a member
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "firstName": "string",
+      "lastName": "string",
+      "email": "name342@example.com",
+      "phone": "(123) 555-5555",
+      "amount": 420.069,
+      "invitedById": "{{ _.res.member_uuid }}"
+    }
+parameters: []
+headers:
+  - name: access_token
+    disabled: false
+    value: string
+    id: pair_33d6c017cb08457baa9a6010471e3449
+  - name: Content-Type
+    value: application/json
+    id: pair_7935e5da588747c08a5b50b430539f65
+authentication:
+  type: bearer
+  token: "{% response 'body', 'req_wrk_ec5bb08e51b84d25a6d1358baaeb2605e049a201',
+    'b64::JC5kYXRhLmFjY2Vzc190b2tlbg==::46b', 'always', 60 %}"
+metaSortKey: -1640414462818
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

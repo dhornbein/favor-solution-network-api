@@ -1,0 +1,33 @@
+_id: req_wrk_ec5bb08e51b84d25a6d1358baaeb260560c4457e
+type: Request
+parentId: fld_wrk_ec5bb08e51b84d25a6d1358baaeb2605f13eb585
+modified: 1640414528297
+created: 1640414462809
+url: "{{ base_url }}/members"
+name: searches members
+description: ""
+method: GET
+body: {}
+parameters:
+  - name: searchString
+    disabled: true
+    value: string
+  - name: searchId
+    disabled: true
+    value: "42"
+  - name: skip
+    disabled: true
+    value: "0"
+  - name: limit
+    disabled: true
+    value: "0"
+headers: []
+authentication: {}
+metaSortKey: -1640414462809
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

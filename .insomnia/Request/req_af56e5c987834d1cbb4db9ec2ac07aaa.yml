@@ -1,0 +1,27 @@
+_id: req_af56e5c987834d1cbb4db9ec2ac07aaa
+type: Request
+parentId: fld_wrk_ec5bb08e51b84d25a6d1358baaeb2605f13eb585
+modified: 1640503498734
+created: 1640498043958
+url: "{{ base_url }}/auth"
+name: Test authentication
+description: ""
+method: GET
+body: {}
+parameters: []
+headers:
+  - name: access_token
+    disabled: false
+    value: string
+    id: pair_2856d46457684bb8a93c263282b89871
+authentication:
+  type: bearer
+  token: "{{ _.res.member_token }}"
+metaSortKey: -1640414462821
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
