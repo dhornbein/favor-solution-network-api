@@ -1,7 +1,7 @@
 _id: req_wrk_ec5bb08e51b84d25a6d1358baaeb2605c455b38e
 type: Request
 parentId: fld_wrk_ec5bb08e51b84d25a6d1358baaeb260561c9b2b1
-modified: 1640499740536
+modified: 1641630201733
 created: 1640414462795
 url: "{{ base_url }}/members/join/{{ token }}"
 name: Join favor via invite
@@ -11,11 +11,11 @@ body:
   mimeType: application/json
   text: |-
     {
-      "username": "xXxC4TL0verxXx",
+      "username": "xXxC444TL0verxXx",
       "firstName": "test",
       "lastName": "testing",
       "phone": "(123) 444-5555",
-      "email": "tester@example.com",
+      "email": "tester2@example.com",
       "password": "qazWSX123!@#"
     }
 parameters: []

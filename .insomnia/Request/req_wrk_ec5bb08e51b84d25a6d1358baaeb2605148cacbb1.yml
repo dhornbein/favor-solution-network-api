@@ -1,7 +1,7 @@
 _id: req_wrk_ec5bb08e51b84d25a6d1358baaeb2605148cacbb1
 type: Request
 parentId: fld_wrk_ec5bb08e51b84d25a6d1358baaeb2605f13eb585
-modified: 1640494722808
+modified: 1641630363202
 created: 1640414462810
 url: "{{ base_url }}/transactions"
 name: adds an transaction
@@ -11,13 +11,12 @@ body:
   mimeType: application/json
   text: |-
     {
-      "payeeId": "{{ _.member_id }}",
-      "recipientId": "{{ _.member_id_two }}",
+      "payeeUid": "1a6aa934-f18b-41e2-a759-a4cd67971828",
+      "recipientUid": "c62d52c0-b751-4d6a-a208-1a4db56d2c14",
       "amount": 420.069,
       "title": "a short descriptive title",
       "description": "a long form descriptive story",
-      "effectiveDatetime": "2016-08-29T09:12:33.001Z",
-      "brokerId": "{{ _.broker_id }}"
+      "effectiveDatetime": "2016-08-29T09:12:33.001Z"
     }
 parameters: []
 headers:
@@ -26,7 +25,8 @@ headers:
     id: pair_114c24113a7740c0b2297ae12ea0d04f
 authentication:
   type: bearer
-  token: "{{ _.member_token }}"
+  token: "{% response 'body', 'req_wrk_ec5bb08e51b84d25a6d1358baaeb2605e049a201',
+    'b64::JC5kYXRhLmFjY2Vzc190b2tlbg==::46b', 'never', 60 %}"
 metaSortKey: -1640414462810
 isPrivate: false
 settingStoreCookies: true

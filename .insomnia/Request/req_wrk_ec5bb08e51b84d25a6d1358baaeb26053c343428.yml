@@ -1,0 +1,21 @@
+_id: req_wrk_ec5bb08e51b84d25a6d1358baaeb26053c343428
+type: Request
+parentId: fld_wrk_ec5bb08e51b84d25a6d1358baaeb260561c9b2b1
+modified: 1641625094813
+created: 1641624296503
+url: "{{ base_url }}/members/join/{{ token }}"
+name: Decode invitation
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1641624296503
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

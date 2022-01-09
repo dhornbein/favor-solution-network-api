@@ -3,7 +3,7 @@ type: Request
 parentId: fld_wrk_ec5bb08e51b84d25a6d1358baaeb2605f13eb585
 modified: 1640504756364
 created: 1640494414056
-url: "{{ base_url }}/members/update/{{ uuid }}"
+url: "{{ base_url }}/members/update/{{ uid }}"
 name: update member data
 description: ""
 method: PATCH

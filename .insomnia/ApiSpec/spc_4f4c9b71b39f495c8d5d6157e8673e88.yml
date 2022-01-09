@@ -1,7 +1,7 @@
 _id: spc_4f4c9b71b39f495c8d5d6157e8673e88
 type: ApiSpec
 parentId: wrk_ec5bb08e51b84d25a6d1358baaeb2605
-modified: 1640504757400
+modified: 1641630358337
 created: 1640414470848
 fileName: Favor Solutions Network API 1.0.0
 contents: >-
@@ -183,8 +183,8 @@ contents: >-
             schema:
               type: string
           - in: query
-            name: payeeId
-            description: pass a userId to see all payments made by that user
+            name: payeeUid
+            description: pass a userUid to see all payments made by that user
             required: false
             schema:
               $ref: '#/components/schemas/MemberItem/properties/id'
@@ -195,8 +195,8 @@ contents: >-
             schema:
               $ref: '#/components/schemas/MemberItem/properties/username'
           - in: query
-            name: recipientId
-            description: pass a userId to see all payments recevied by that user
+            name: recipientUid
+            description: pass a userUid to see all payments recevied by that user
             required: false
             schema:
               $ref: '#/components/schemas/MemberItem/properties/id'
@@ -388,10 +388,47 @@ contents: >-
                     errors:
                       $ref: '#/components/schemas/ProcessError'
     /members/join/{token}:
+      get:
+        tags:
+          - public
+        summary: Decode invitation
+        operationId: decodeInviteToken
+        description: Open with invite token
+        parameters:
+          - in: path
+            name: token
+            required: true
+            schema:
+              $ref: '#/components/schemas/InviteTokenReturn/properties/invitation_token'
+        responses:
+          '200':
+            description: Token decoded successfully
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                    data:
+                      $ref: '#/components/schemas/InvitationDecoded'
+          '401':
+            description: token authentication error
+          '403':
+            description: Not Authorized - missing invite token
+          '422':
+            description: 'invalid input, object invalid, token invalid or claimed'
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    errors:
+                      $ref: '#/components/schemas/ProcessError'
       post:
         tags:
           - public
-        summary: Join favor via invite
+        summary: Open Invite Token
         operationId: join
         description: Join with invite token
         parameters:
@@ -431,7 +468,7 @@ contents: >-
                   properties:
                     errors:
                       $ref: '#/components/schemas/ProcessError'
-    /members/update/{uuid}:
+    /members/update/{uid}:
       patch:
         tags:
           - members
@@ -441,10 +478,10 @@ contents: >-
         description: Updates a single member's data
         parameters:
           - in: path
-            name: uuid
+            name: uid
             required: true
             schema:
-              $ref: '#/components/schemas/MemberItem/properties/uuid'
+              $ref: '#/components/schemas/MemberItem/properties/uid'
         requestBody:
           content:
             application/json:
@@ -499,8 +536,8 @@ contents: >-
       AccessToken:
         type: object
         properties:
-          uuid:
-            $ref: '#/components/schemas/MemberItem/properties/uuid'
+          uid:
+            $ref: '#/components/schemas/MemberItem/properties/uid'
           username:
             $ref: '#/components/schemas/MemberItem/properties/username'
           id:
@@ -544,20 +581,20 @@ contents: >-
                 $ref: '#/components/schemas/MemberItem/properties/email'
               phone:
                 $ref: '#/components/schemas/MemberItem/properties/phone'
-          invitedById:
-            $ref: '#/components/schemas/MemberItem/properties/uuid'
+          invitedByUid:
+            $ref: '#/components/schemas/MemberItem/properties/uid'
           transaction:
             type: object
             properties:
-              payeeId:
-                $ref: '#/components/schemas/MemberItem/properties/uuid'
+              payeeUid:
+                $ref: '#/components/schemas/MemberItem/properties/uid'
               amount:
                 $ref: '#/components/schemas/TransactionItem/properties/amount'
       InvitationRequest:
         type: object
         required:
           - firstName
-          - invitedById
+          - invitedByUid
         properties:
           firstName:
             $ref: '#/components/schemas/MemberItem/properties/firstName'
@@ -569,8 +606,25 @@ contents: >-
             $ref: '#/components/schemas/MemberItem/properties/phone'
           amount:
             $ref: '#/components/schemas/TransactionItem/properties/amount'
-          invitedById:
-            $ref: '#/components/schemas/MemberItem/properties/uuid'
+          invitedByUid:
+            $ref: '#/components/schemas/MemberItem/properties/uid'
+          password:
+            $ref: '#/components/schemas/MemberPrivate/properties/password'
+      InvitationDecoded:
+        type: object
+        properties:
+          firstName:
+            $ref: '#/components/schemas/MemberItem/properties/firstName'
+          lastName:
+            $ref: '#/components/schemas/MemberItem/properties/lastName'
+          email:
+            $ref: '#/components/schemas/MemberItem/properties/email'
+          phone:
+            $ref: '#/components/schemas/MemberItem/properties/phone'
+          amount:
+            $ref: '#/components/schemas/TransactionItem/properties/amount'
+          invitedByUid:
+            $ref: '#/components/schemas/MemberItem/properties/uid'
       InviteTokenReturn:
         type: object
         properties:
@@ -587,15 +641,15 @@ contents: >-
       TransactionItem:
         type: object
         required:
-          - uuid
+          - uid
           - id
-          - payeeId
-          - recipientId
+          - payeeUid
+          - recipientUid
           - amount
           - title
           - effectiveDatetime
         properties:
-          uuid:
+          uid:
             type: string
             format: uuid
             example: d290f1ee-6c54-4b01-90e6-d701748f0851
@@ -615,11 +669,11 @@ contents: >-
             format: date-time
             example: '2016-08-29T09:12:33.001Z'
             readOnly: true
-          payeeId:
+          payeeUid:
             type: string
             format: uuid
             example: d290f1ee-6c54-4b01-90e6-d701748f0851
-          recipientId:
+          recipientUid:
             type: string
             format: uuid
             example: d290f1ee-6c54-4b01-90e6-d701748f0851
@@ -638,7 +692,7 @@ contents: >-
             type: string
             format: date-time
             example: '2016-08-29T09:12:33.001Z'
-          brokerId:
+          brokerUid:
             type: string
             format: uuid
             example: d290f1ee-6c54-4b01-90e6-d701748f0851
@@ -651,8 +705,8 @@ contents: >-
             $ref: '#/components/schemas/MemberItem/properties/firstName'
           lastName:
             $ref: '#/components/schemas/MemberItem/properties/lastName'
-          BrokerId:
-            $ref: '#/components/schemas/MemberItem/properties/BrokerId'
+          BrokerUid:
+            $ref: '#/components/schemas/MemberItem/properties/BrokerUid'
           phone:
             $ref: '#/components/schemas/MemberItem/properties/phone'
           email:
@@ -676,10 +730,10 @@ contents: >-
             $ref: '#/components/schemas/MemberItem/properties/firstName'
           lastName:
             $ref: '#/components/schemas/MemberItem/properties/lastName'
-          BrokerId:
-            $ref: '#/components/schemas/MemberItem/properties/BrokerId'
-          InvitedById:
-            $ref: '#/components/schemas/MemberItem/properties/InvitedById'
+          BrokerUid:
+            $ref: '#/components/schemas/MemberItem/properties/BrokerUid'
+          InvitedByUid:
+            $ref: '#/components/schemas/MemberItem/properties/InvitedByUid'
           phone:
             $ref: '#/components/schemas/MemberItem/properties/phone'
           email:
@@ -696,10 +750,10 @@ contents: >-
         type: object
         required:
           - username
-          - uuid
+          - uid
           - id
         properties:
-          uuid:
+          uid:
             type: string
             format: uuid
             example: d290f1ee-6c54-4b01-90e6-d701748f0851
@@ -755,11 +809,11 @@ contents: >-
           brokerName:
             type: string
             example: 'username of broker'
-          BrokerId:
+          BrokerUid:
             type: string
             format: uuid
             example: d290f1ee-6c54-4b01-90e6-d701748f0851
-          InvitedById:
+          InvitedByUid:
             type: string
             format: uuid
             example: d290f1ee-6c54-4b01-90e6-d701748f0851
